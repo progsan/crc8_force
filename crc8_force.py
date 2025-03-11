@@ -5,14 +5,15 @@
 '''
 
 __author__      = "prog_san"
-__version__     = "0.1"
-__date__        = "10.03.2025"
+__version__     = "0.2"
+__date__        = "11.03.2025"
 
 ''' 
-    0x01, 0x53, 0xD4, 0xFE, 0x00, 0x00, 0x00, 0x6F   
+    0x01, 0x53, 0xD4, 0xFE, 0x00, 0x00, 0x00, 0x6F
+    
+    stream = b'\x01\x53\xD4\xFE\x00\x00\x00'  
     
     index = 3
-    stream = b'\x01\x53\xD4\xFE\x00\x00\x00'  
     etalon_crc = 0x6f
 ''' 
 
@@ -30,7 +31,7 @@ while True:
 
     for c in str_no_crc:       
         for i in range(0, 8):
-            b = (crc & 1) ^ (((int(c) & (1 << i))) >> i)
+            b = (crc ^ (c >> i)) & 1
             crc = (crc ^ (b * 0x118)) >> 1
 
     if crc == etalon_crc:
